@@ -355,6 +355,7 @@ ul  { list-style: none; }
 .glitch {
   animation: glitch 5s infinite;
 }
+
 .glitch::before,
 .glitch::after {
   content: attr(data-text);
