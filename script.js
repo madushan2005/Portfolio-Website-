@@ -288,22 +288,22 @@ function initScrollTop() {
   });
 }
 
-/*10. CONTACT FORM VALIDATION*/
+/* 10. CONTACT FORM VALIDATION */
 function initContactForm() {
   const form    = $('#contactForm');
   if (!form) return;
 
   const fields = {
-    name:    { input: $('#contactName'),    error: $('#nameError'),    validate: v => v.trim().length >= 2 ? '' : 'Please enter your name (min 2 characters).' },
+    name:    { input: $('#contactName'),    error: $('#nameError'),    validate: v => v.trim().length >= 2 ? '' : 'Please enter your name.' },
     email:   { input: $('#contactEmail'),   error: $('#emailError'),   validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'Please enter a valid email address.' },
-    subject: { input: $('#contactSubject'), error: $('#subjectError'), validate: v => v.trim().length >= 3 ? '' : 'Please enter a subject (min 3 characters).' },
-    message: { input: $('#contactMessage'), error: $('#messageError'), validate: v => v.trim().length >= 10 ? '' : 'Please write a message (min 10 characters).' },
+    subject: { input: $('#contactSubject'), error: $('#subjectError'), validate: v => v.trim().length >= 3 ? '' : 'Please enter a subject.' },
+    message: { input: $('#contactMessage'), error: $('#messageError'), validate: v => v.trim().length >= 10 ? '' : 'Please write a message.' },
   };
 
   const successBox = $('#formSuccess');
   const submitBtn  = $('#submitBtn');
 
-  // Live validation on blur (after first interaction)
+  // Live validation on blur
   Object.values(fields).forEach(({ input, error, validate }) => {
     input.addEventListener('blur', () => {
       const msg = validate(input.value);
@@ -331,32 +331,46 @@ function initContactForm() {
 
     if (!valid) return;
 
-    // Simulate sending — show loading state
+    // Start Loading Animation
     submitBtn.disabled = true;
-    submitBtn.querySelector('span').textContent = 'Sending...';
-    submitBtn.querySelector('i').className = 'bx bx-loader-alt bx-spin';
+    submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i><span>Sending...</span>';
 
-    setTimeout(() => {
-      // Show success message
-      successBox.hidden = false;
-      successBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    // Package the form data
+    const formData = new FormData(form);
 
-      // Reset form
-      form.reset();
-      Object.values(fields).forEach(({ input, error }) => {
-        input.classList.remove('error', 'success');
-        error.textContent = '';
-      });
+    // Send the data to Formspree securely
+    fetch(form.action, {
+      method: form.method,
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(response => {
+      if (response.ok) {
+        // Success! Show the green box and reset form
+        successBox.hidden = false;
+        form.reset();
+        
+        // Clear success states
+        Object.values(fields).forEach(({ input, error }) => {
+          input.classList.remove('error', 'success');
+          error.textContent = '';
+        });
 
-      // Reset button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="bx bx-send"></i><span>Send Message</span>';
+        setTimeout(() => successBox.hidden = true, 6000);
+      } else {
+        alert("Oops! There was a problem submitting your form.");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="bx bx-send"></i><span>Send Message</span>';
+      }
+    })
+    .catch(error => {
+      alert("Network error. Please try again later.");
       submitBtn.disabled = false;
-      submitBtn.querySelector('span').textContent = 'Send Message';
-      submitBtn.querySelector('i').className = 'bx bx-send';
-
-      // Auto-hide success message after 6 seconds
-      setTimeout(() => { successBox.hidden = true; }, 6000);
-    }, 1200); // simulate a small network delay
-  });
+      submitBtn.innerHTML = '<i class="bx bx-send"></i><span>Send Message</span>';
+    });
+  }); // <-- This ensures the event listener is closed properly!
 
   /** Helper: display or clear an error on a field */
   function showFieldError(input, errorEl, message) {
