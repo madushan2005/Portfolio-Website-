@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decrypt Button Isolated</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:ital,wght@0,300;0,400;0,600;0,800;1,400&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+  <style>
+    /* 1. Base Variables for the Button */
+    :root {
+      --bg-primary: #050a0e;
+      --accent:     #00e6ff;   /* Cyan */
+      --accent2:    #00ff9d;   /* Green */
+      --accent-dim: rgba(0, 230, 255, 0.12);
+      --radius:     8px;
+      --transition: 0.3s ease;
+    }
+
+    /* Page setup just for testing */
+    body {
+      background: var(--bg-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 100px;
+      min-height: 200vh; /* Forces page to be scrollable */
+      font-family: 'Exo 2', sans-serif;
+    }
+
+    /* 2. Standard Button Styles */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.6rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition);
+      letter-spacing: 0.03em;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg-primary);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 22px var(--accent), 0 0 6px var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* 3. Decrypt Animation States */
+    .btn.is-decrypting {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      font-family: 'Share Tech Mono', monospace;
+      pointer-events: none; 
+    }
+    .btn.is-decrypted {
+      background: var(--accent2);
+      color: var(--bg-primary);
+      border: 1px solid var(--accent2);
+      box-shadow: 0 0 20px rgba(0, 255, 157, 0.4); /* Green glow */
+      font-family: 'Share Tech Mono', monospace;
+      pointer-events: none;
+    }
+
+    /* Dummy section to scroll to */
+    #writeups {
+      margin-top: 100vh;
+      color: white;
+      font-family: 'Share Tech Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#writeups" class="btn btn-primary" id="decryptBtn">
+    <i class="bx bx-terminal" aria-hidden="true"></i> View Write-ups
+  </a>
+
+  <section id="writeups">
+    <h2>[ Write-ups Section Reached ]</h2>
+  </section>
+
+  <script>
+    // Helper to select elements easily
+    const $ = (sel) => document.querySelector(sel);
+
+    function initDecryptButton() {
+      const btn = $('#decryptBtn');
+      const targetSection = $('#writeups');
+      if (!btn || !targetSection) return;
+
+      const originalHTML = btn.innerHTML;
+      // Characters to scramble
+      const CHARS = '01アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ<>/\\[]{}|=!@#$%^&*';
+      const targetText = "ACCESS GRANTED";
+
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Switch to decrypting styles
+        btn.classList.add('is-decrypting');
+        btn.classList.remove('btn-primary');
+        
+        let iterations = 0;
+        const maxIterations = 20;
+
+        // Scramble Loop
+        const interval = setInterval(() => {
+          let scrambled = targetText.split('').map((char, index) => {
+            if (index < iterations / 2) return targetText[index];
+            return CHARS[Math.floor(Math.random() * CHARS.length)];
+          }).join('');
+
+          btn.innerHTML = `<i class="bx bx-lock-open-alt"></i> ${scrambled}`;
+          iterations++;
+
+          // Finish Decrypting
+          if (iterations >= maxIterations * 2) {
+            clearInterval(interval);
+            
+            // Switch to Success styles
+            btn.classList.remove('is-decrypting');
+            btn.classList.add('is-decrypted');
+            btn.innerHTML = `<i class="bx bx-check"></i> ${targetText}`;
+
+            // Wait, then scroll
+            setTimeout(() => {
+              const offset = targetSection.getBoundingClientRect().top + window.scrollY - 50;
+              window.scrollTo({ top: offset, behavior: 'smooth' });
+
+              // Reset button after scrolling
+              setTimeout(() => {
+                btn.classList.remove('is-decrypted');
+                btn.classList.add('btn-primary');
+                btn.innerHTML = originalHTML;
+              }, 1200);
+            }, 600);
+          }
+        }, 35); // Scramble speed
+      });
+    }
+
+    // Run when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      initDecryptButton();
+    });
+  </script>
+</body>
+</html>
