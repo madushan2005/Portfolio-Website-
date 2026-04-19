@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vidanelage Sasidu Madushan — Portfolio</title>
-  <meta name="description" content="portfolio-website" />
 
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,19 +19,19 @@
 <body>
 
   <!-- Background canvas (matrix rain / particles) -->
-  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="bg-canvas"></canvas>
 
   <!-- ===== NAVBAR ===== -->
-  <header class="navbar" id="navbar" role="banner">
-    <nav class="nav-container" aria-label="Main navigation">
+  <header class="navbar" id="navbar">
+    <nav class="nav-container">
 
-      <a href="#home" class="nav-logo" aria-label="Home">
+      <a href="#home" class="nav-logo">
 
         <span class="logo-text">VSM</span>
         <span class="logo-dot">.</span>
       </a>
 
-      <ul class="nav-links" role="list">
+      <ul class="nav-links">
         <li><a href="#home"           class="nav-link active" data-section="home">Home</a></li>
         <li><a href="#about"          class="nav-link" data-section="about">About</a></li>
         <li><a href="#qualifications" class="nav-link" data-section="qualifications">Qualifications</a></li>
@@ -41,10 +40,10 @@
       </ul>
 
       <div class="nav-controls">
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle theme">
-          <i class="bx bx-moon" id="themeIcon" aria-hidden="true"></i>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+          <i class="bx bx-moon" id="themeIcon"></i>
         </button>
-        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <button class="hamburger" id="hamburger">
           <span class="ham-bar"></span>
           <span class="ham-bar"></span>
           <span class="ham-bar"></span>
@@ -52,8 +51,8 @@
       </div>
     </nav>
 
-    <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation" hidden>
-      <ul class="mobile-links" role="list">
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <ul class="mobile-links">
         <li><a href="#home"           class="mobile-link">Home</a></li>
         <li><a href="#about"          class="mobile-link">About</a></li>
         <li><a href="#qualifications" class="mobile-link">Qualifications</a></li>
@@ -67,31 +66,31 @@
   <main id="main-content">
 
     <!-- 1 · HOME / HERO-->
-    <section id="home" class="section hero-section" aria-labelledby="hero-heading">
+    <section id="home" class="section hero-section">
       <div class="hero-content">
 
-        <div class="terminal-line" aria-hidden="true">
+        <div class="terminal-line">
           <span class="prompt">root@kali:~$</span>
           <span class="terminal-cmd"> whoami</span>
         </div>
         <h1 id="hero-heading" class="hero-name glitch" data-text="Vidanelage Sasidu Madushan">Vidanelage Sasidu Madushan</h1>
 
-        <p class="hero-subtitle" aria-live="polite">
+        <p class="hero-subtitle">
           <span class="typing-prefix">// </span>
-          <span id="typingText" class="typing-text" aria-label="Cybersecurity Enthusiast"></span>
-          <span class="cursor-blink" aria-hidden="true">|</span>
+          <span id="typingText" class="typing-text" ></span>
+          <span class="cursor-blink" >|</span>
         </p>
 
         <div class="hero-btns">
          <a href="#writeups" class="btn btn-primary" id="decryptBtn">
-          <i class="bx bx-terminal" aria-hidden="true"></i> View Write-ups
+          <i class="bx bx-terminal" ></i> View Write-ups
         </a>
           <a href="#contact" class="btn btn-outline">
-            <i class="bx bx-send" aria-hidden="true"></i> Get in Touch
+            <i class="bx bx-send" ></i> Get in Touch
           </a>
         </div>
         <!-- Decorative floating icons -->
-        <div class="floating-icons" aria-hidden="true">
+        <div class="floating-icons" >
           <span class="float-icon fi-1"><i class="bx bx-lock-alt"></i></span>
           <span class="float-icon fi-2"><i class="bx bx-code-alt"></i></span>
           <span class="float-icon fi-3"><i class="bx bx-bug"></i></span>
@@ -102,7 +101,7 @@
       </div>
 
       <!-- Profile photo -->
-      <div class="hero-photo-wrapper" aria-hidden="true">
+      <div class="hero-photo-wrapper" >
         <div class="photo-frame">
           <div class="photo-hex">
             
@@ -113,19 +112,19 @@
               id="profileImg"
             />
           </div>
-          <div class="photo-ring ring-1" aria-hidden="true"></div>
-          <div class="photo-ring ring-2" aria-hidden="true"></div>
-          <div class="photo-scan" aria-hidden="true"></div>
+          <div class="photo-ring ring-1" ></div>
+          <div class="photo-ring ring-2" ></div>
+          <div class="photo-scan" ></div>
         </div>
       </div>
 
-      <a href="#about" class="scroll-indicator" aria-label="Scroll to About">
-        <span class="scroll-arrow" aria-hidden="true"></span>
+      <a href="#about" class="scroll-indicator">
+        <span class="scroll-arrow" ></span>
       </a>
     </section>
 
     <!-- 2 · ABOUT -->
-    <section id="about" class="section reveal" aria-labelledby="about-heading">
+    <section id="about" class="section reveal" >
       <div class="container">
         <h2 id="about-heading" class="section-title"><span class="title-accent">About</span> Me</h2>
 
@@ -135,14 +134,14 @@
             <p>Hello! I'm <strong>Vidanelage Sasidu Madushan</strong>, a passionate cybersecurity enthusiast currently pursuing a degree in <strong>B.Sc. (Hons) in Information Technology and Management</strong> at the University of <strong>Moratuwa</strong>.</p>
             <p>I'm deeply fascinated by how systems work and how they can be broken — and then secured. My journey began when I discovered TryHackMe and realised that understanding attacks is the first step to building stronger defences.</p>
 
-            <ul class="about-facts" aria-label="Quick facts">
+            <ul class="about-facts" >
               <li><span class="fact-label">Location</span><span class="fact-value">Chilaw, Sri Lanka</span></li>
               <li><span class="fact-label">Focus</span><span class="fact-value">Ethical Hacking &amp; Web Security</span></li>
               <li><span class="fact-label">Platforms</span><span class="fact-value">TryHackMe, HackTheBox</span></li>
             </ul>
           </div>
 
-          <div class="about-terminal reveal-child" aria-hidden="true">
+          <div class="about-terminal reveal-child" >
             <div class="term-bar">
               <span class="term-dot red"></span>
               <span class="term-dot yellow"></span>
@@ -165,13 +164,13 @@
     </section>
 
     <!-- 3 · QUALIFICATIONs -->
-    <section id="qualifications" class="section reveal" aria-labelledby="qual-heading">
+    <section id="qualifications" class="section reveal" >
       <div class="container">
         <h2 id="qual-heading" class="section-title"><span class="title-accent">Qualifications</span> &amp; Skills</h2>
 
         <!-- Certifications -->
 <div class="subsection">
-  <h3 class="subsection-title"><i class="bx bx-award" aria-hidden="true"></i> Certifications</h3>
+  <h3 class="subsection-title"><i class="bx bx-award" ></i> Certifications</h3>
   
   <div class="quals-grid reveal-child">
 
@@ -261,27 +260,27 @@
 </div>
 <br><br>
 <div class="subsection">
-  <h3 class="subsection-title"><i class="bx bx-code-curly" aria-hidden="true"></i> Technical Skills</h3>
-  <div class="skills-grid" role="list" aria-label="Technical skills">
-    <span class="skill-tag reveal-child"><i class="bx bx-code-block" aria-hidden="true"></i>Kali Linux Shell</span>
-    <span class="skill-tag reveal-child"><i class="bx bxl-python" aria-hidden="true"></i>Python</span>
-    <span class="skill-tag reveal-child"><i class="bx bxs-show" aria-hidden="true"></i>Nmap</span>
-    <span class="skill-tag reveal-child"><i class="bx bx-key" aria-hidden="true"></i>Johntheripper</span>
-    <span class="skill-tag reveal-child"><i class="bx bx-radar" aria-hidden="true"></i>Wireshark</span>
-    <span class="skill-tag reveal-child"><i class="bx bxl-html5" aria-hidden="true"></i>HTML</span>
-    <span class="skill-tag reveal-child"><i class="bx bxl-css3" aria-hidden="true"></i>CSS</span>
-    <span class="skill-tag reveal-child"><i class="bx bxl-javascript" aria-hidden="true"></i>JavaScript</span>
+  <h3 class="subsection-title"><i class="bx bx-code-curly" ></i> Technical Skills</h3>
+  <div class="skills-grid" >
+    <span class="skill-tag reveal-child"><i class="bx bx-code-block" ></i>Kali Linux Shell</span>
+    <span class="skill-tag reveal-child"><i class="bx bxl-python" ></i>Python</span>
+    <span class="skill-tag reveal-child"><i class="bx bxs-show" ></i>Nmap</span>
+    <span class="skill-tag reveal-child"><i class="bx bx-key" ></i>Johntheripper</span>
+    <span class="skill-tag reveal-child"><i class="bx bx-radar" ></i>Wireshark</span>
+    <span class="skill-tag reveal-child"><i class="bx bxl-html5" ></i>HTML</span>
+    <span class="skill-tag reveal-child"><i class="bx bxl-css3" ></i>CSS</span>
+    <span class="skill-tag reveal-child"><i class="bx bxl-javascript" ></i>JavaScript</span>
   </div>
 </div>
 <div class="section-cta reveal-child">
   <a href="resume.pdf" download="Sasidu_Madushan_CV.pdf" class="btn btn-outline" target="_blank">
-    <i class="bx bx-download" aria-hidden="true"></i> Download My CV
+    <i class="bx bx-download" ></i> Download My CV
   </a>
 </div>
     </section>
 
     <!--  4 · WRITE-UPS-->
-    <section id="writeups" class="section reveal" aria-labelledby="writeups-heading">
+    <section id="writeups" class="section reveal">
       <div class="container">
         <h2 id="writeups-heading" class="section-title">CTF <span class="title-accent">Write-ups</span> &amp; Walkthroughs</h2>
         <p class="section-sub">Walkthroughs, solutions, and notes from my hacking journey.</p>
@@ -294,11 +293,11 @@
               <span class="wu-difficulty easy">Easy</span>
               <span class="wu-difficulty easy">Walkthrough</span>
             </div>
-            <h3 class="wu-title"><i class="bx bx-desktop" aria-hidden="true"></i> Inside a Computer System Room</h3>
+            <h3 class="wu-title"><i class="bx bx-desktop" ></i> Inside a Computer System Room</h3>
             <p class="wu-desc">This room covers the basic components of a computer system.</p>
             <div class="wu-tags"><span class="wu-tag">Walkthrough</span></div>
             <a href="https://medium.com/@madushansasidu468/inside-a-computer-system-walkthrough-tryhackme-b51259d40457" target="_blank" rel="noopener noreferrer" class="btn btn-sm">
-              <i class="bx bxl-medium" aria-hidden="true"></i> Read on Medium
+              <i class="bx bxl-medium" ></i> Read on Medium
             </a>
           </article>
 
@@ -308,11 +307,11 @@
               <span class="wu-difficulty easy">Easy</span>
               <span class="wu-difficulty easy">CTF-Writeup</span>
             </div>
-            <h3 class="wu-title"><i class="bx bx-shield-quarter" aria-hidden="true"></i> The Game CTF</h3>
+            <h3 class="wu-title"><i class="bx bx-shield-quarter" ></i> The Game CTF</h3>
             <p class="wu-desc">Practice your Game Hacking skills.</p>
             <div class="wu-tags"><span class="wu-tag">game hacking</span><span class="wu-tag">reverse engineering</span></div>
             <a href="https://medium.com/@madushansasidu468/the-game-ctf-tryhackme-4467248d11a4" target="_blank" rel="noopener noreferrer" class="btn btn-sm">
-              <i class="bx bxl-medium" aria-hidden="true"></i> Read on Medium
+              <i class="bx bxl-medium" ></i> Read on Medium
             </a>
           </article>
 
@@ -322,25 +321,25 @@
               <span class="wu-difficulty easy">Easy</span> 
               <span class="wu-difficulty easy">Walkthrough</span>
             </div>
-            <h3 class="wu-title"><i class="bx bx-data" aria-hidden="true"></i> Data Representation</h3>
+            <h3 class="wu-title"><i class="bx bx-data" ></i> Data Representation</h3>
             <p class="wu-desc">Learn about how computers represent numbers and colors.</p>
             <div class="wu-tags"><span class="wu-tag">Representing Colors</span><span class="wu-tag">Number Systems</span></div>
             <a href="https://medium.com/@madushansasidu468/data-representation-walkthrough-tryhackme-b1f143f2a384" target="_blank" rel="noopener noreferrer" class="btn btn-sm">
-              <i class="bx bxl-medium" aria-hidden="true"></i> Read on Medium
+              <i class="bx bxl-medium" ></i> Read on Medium
             </a>
           </article>
         </div>
 
         <div class="section-cta">
           <a href="https://medium.com/@madushansasidu468" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
-            <i class="bx bxl-medium" aria-hidden="true"></i> View All Articles on Medium
+            <i class="bx bxl-medium" ></i> View All Articles on Medium
           </a>
         </div>
       </div>
     </section>
 
     <!-- 5 · CONTACT -->
-    <section id="contact" class="section reveal" aria-labelledby="contact-heading">
+    <section id="contact" class="section reveal">
       <div class="container">
         <h2 id="contact-heading" class="section-title">Get in <span class="title-accent">Touch</span></h2>
         <p class="section-sub">Have a question, collaboration idea, or just want to say hello?</p>
@@ -350,59 +349,59 @@
           <div class="contact-info reveal-child">
             <h3>Let's Connect</h3>
             <p>I'm open to internship opportunities, CTF team collabs, and cybersecurity discussions. My inbox is always open.</p>
-            <ul class="contact-details" aria-label="Contact details">
+            <ul class="contact-details" >
               <li>
-                <i class="bx bx-envelope" aria-hidden="true"></i>
+                <i class="bx bx-envelope" ></i>
                 <a href="mailto:madushansasidu468@gmail.com">madushansasidu468@gmail.com</a>
               </li>
               <li>
-                <i class="bx bx-map" aria-hidden="true"></i>
+                <i class="bx bx-map" ></i>
                 <span>Chilaw, Sri Lanka</span>
               </li>
             </ul>
-            <div class="contact-socials" aria-label="Social links">
-              <a href="https://github.com/madushan2005"      target="_blank" rel="noopener noreferrer" aria-label="GitHub"   ><i class="bx bxl-github"         aria-hidden="true"></i></a>
-              <a href="https://www.linkedin.com/in/vidanelage-sasidu-madushan-4704b335a/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bx bxl-linkedin"         aria-hidden="true"></i></a>
-              <a href="https://medium.com/@madushansasidu468"     target="_blank" rel="noopener noreferrer" aria-label="Medium"  ><i class="bx bxl-medium"           aria-hidden="true"></i></a>
-              <a href="https://tryhackme.com/p/Madushan1" target="_blank" rel="noopener noreferrer" aria-label="TryHackMe"><i class="bx bx-shield-quarter"  aria-hidden="true"></i></a>
+            <div class="contact-socials" >
+              <a href="https://github.com/madushan2005"      target="_blank" rel="noopener noreferrer" ><i class="bx bxl-github"         ></i></a>
+              <a href="https://www.linkedin.com/in/vidanelage-sasidu-madushan-4704b335a/" target="_blank" rel="noopener noreferrer" ><i class="bx bxl-linkedin"         ></i></a>
+              <a href="https://medium.com/@madushansasidu468"     target="_blank" rel="noopener noreferrer" ><i class="bx bxl-medium"           ></i></a>
+              <a href="https://tryhackme.com/p/Madushan1" target="_blank" rel="noopener noreferrer" ><i class="bx bx-shield-quarter"  ></i></a>
             </div>
           </div>
 
           <div class="contact-form-wrapper reveal-child">
-            <form id="contactForm" class="contact-form" novalidate aria-label="Contact form" action="https://formspree.io/f/mnjljgdl" method="POST">
+            <form id="contactForm" class="contact-form" novalidate  action="https://formspree.io/f/mnjljgdl" method="POST">
 
-              <div class="form-success" id="formSuccess" role="alert" aria-live="polite" hidden>
-                <i class="bx bx-check-circle" aria-hidden="true"></i>
+              <div class="form-success" id="formSuccess" hidden>
+                <i class="bx bx-check-circle" ></i>
                 <p>Your message has been submitted successfully!</p>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="contactName">Name <span aria-hidden="true">*</span></label>
-                  <input type="text"  id="contactName"    name="name"    placeholder="Your Name" autocomplete="name"  required aria-required="true" />
-                  <span class="field-error" id="nameError" role="alert"></span>
+                  <label for="contactName">Name <span >*</span></label>
+                  <input type="text"  id="contactName"    name="name"    placeholder="Your Name" autocomplete="name"  required  />
+                  <span class="field-error" id="nameError" ></span>
                 </div>
                 <div class="form-group">
-                  <label for="contactEmail">Email <span aria-hidden="true">*</span></label>
-                  <input type="email" id="contactEmail"   name="email"   placeholder="your@email.com"   autocomplete="email" required aria-required="true" />
-                  <span class="field-error" id="emailError" role="alert"></span>
+                  <label for="contactEmail">Email <span >*</span></label>
+                  <input type="email" id="contactEmail"   name="email"   placeholder="your@email.com"   autocomplete="email" required  />
+                  <span class="field-error" id="emailError" ></span>
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="contactSubject">Subject <span aria-hidden="true">*</span></label>
-                <input type="text" id="contactSubject" name="subject" placeholder="What's this about?" required aria-required="true" />
-                <span class="field-error" id="subjectError" role="alert"></span>
+                <label for="contactSubject">Subject <span >*</span></label>
+                <input type="text" id="contactSubject" name="subject" placeholder="What's this about?" required  />
+                <span class="field-error" id="subjectError" ></span>
               </div>
 
               <div class="form-group">
-                <label for="contactMessage">Message <span aria-hidden="true">*</span></label>
-                <textarea id="contactMessage" name="message" rows="6" placeholder="Your message here..." required aria-required="true"></textarea>
-                <span class="field-error" id="messageError" role="alert"></span>
+                <label for="contactMessage">Message <span >*</span></label>
+                <textarea id="contactMessage" name="message" rows="6" placeholder="Your message here..." required ></textarea>
+                <span class="field-error" id="messageError" ></span>
               </div>
 
               <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
-                <i class="bx bx-send" aria-hidden="true"></i>
+                <i class="bx bx-send" ></i>
                 <span>Send Message</span>
               </button>
             </form>
@@ -415,22 +414,22 @@
   </main>
 
   <!--FOOTER-->
-  <footer class="footer" role="contentinfo">
+  <footer class="footer">
     <div class="footer-container">
 
       <p class="footer-copy">&copy; <span id="footerYear"></span> Vidanelage Sasidu Madushan — All rights reserved.</p>
-      <div class="footer-social" aria-label="Social links">
-        <a href="https://github.com/madushan2005"      target="_blank" rel="noopener noreferrer" aria-label="GitHub"  ><i class="bx bxl-github"  aria-hidden="true"></i></a>
-        <a href="https://linkedin.com/in/vidanelage-sasidu-madushan-4704b335a/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bx bxl-linkedin" aria-hidden="true"></i></a>
-        <a href="https://medium.com/@madushansasidu468"     target="_blank" rel="noopener noreferrer" aria-label="Medium" ><i class="bx bxl-medium"   aria-hidden="true"></i></a>
+      <div class="footer-social" >
+        <a href="https://github.com/madushan2005"      target="_blank" rel="noopener noreferrer" ><i class="bx bxl-github"  ></i></a>
+        <a href="https://linkedin.com/in/vidanelage-sasidu-madushan-4704b335a/" target="_blank" rel="noopener noreferrer" ><i class="bx bxl-linkedin" ></i></a>
+        <a href="https://medium.com/@madushansasidu468"     target="_blank" rel="noopener noreferrer" ><i class="bx bxl-medium"   ></i></a>
       </div>
-      <p class="footer-built">Built with <span aria-label="love">&lt;/&gt;</span> &amp; a terminal</p>
+      <p class="footer-built">Built with <span ">&lt;/&gt;</span> &amp; a terminal</p>
     </div>
   </footer>
 
   <!-- Scroll-to-top button -->
-  <button class="scroll-top" id="scrollTop" aria-label="Back to top" title="Back to top" hidden>
-    <i class="bx bx-chevron-up" aria-hidden="true"></i>
+  <button class="scroll-top" id="scrollTop" title="Back to top" hidden>
+    <i class="bx bx-chevron-up" ></i>
   </button>
 
   
