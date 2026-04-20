@@ -1110,20 +1110,7 @@ ul  { list-style: none; }
 .writeups-grid .reveal-child.visible:nth-child(3) { transition-delay: 0.16s; }
 .writeups-grid .reveal-child.visible:nth-child(4) { transition-delay: 0.24s; }
 
-.links-grid .reveal-child.visible:nth-child(2) { transition-delay: 0.06s; }
-.links-grid .reveal-child.visible:nth-child(3) { transition-delay: 0.12s; }
-.links-grid .reveal-child.visible:nth-child(4) { transition-delay: 0.18s; }
-.links-grid .reveal-child.visible:nth-child(5) { transition-delay: 0.24s; }
-.links-grid .reveal-child.visible:nth-child(6) { transition-delay: 0.30s; }
-
-/* 14. UTILITIES */
-.sr-only {
-  position: absolute; width: 1px; height: 1px;
-  padding: 0; margin: -1px; overflow: hidden;
-  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-}
-
-/* 15. RESPONSIVE*/
+/* 14. RESPONSIVE*/
 
 /* Tablet */
 @media (max-width: 960px) {
@@ -1162,7 +1149,6 @@ ul  { list-style: none; }
   .footer-container { flex-direction: column; align-items: center; text-align: center; }
 
   .writeups-grid { grid-template-columns: 1fr; }
-  .links-grid    { grid-template-columns: 1fr; }
   .cert-grid     { grid-template-columns: 1fr; }
 }
 

@@ -1,458 +1,196 @@
-/* 01. DOM HELPERS*/
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
-/* 02. BACKGROUND CANVAS — MATRIX RAIN */
 function initMatrixRain() {
   const canvas = $('#bg-canvas');
   if (!canvas) return;
-
   const ctx = canvas.getContext('2d');
-
-  // Characters to use in the rain — cybersecurity-flavoured mix
   const CHARS = '01アイウエオカキクケコサシスセソタチツテトナニヌネノABCDEFGHIJKLMNOPQRSTUVWXYZ<>/\\[]{}|=!@#$%^&*';
-
   let cols, drops, fontSize;
 
   function resize() {
-    canvas.width  = window.innerWidth;
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
     fontSize = 13;
-    cols     = Math.floor(canvas.width / fontSize);
-    drops    = new Array(cols).fill(1);
+    cols = Math.floor(canvas.width / fontSize);
+    drops = new Array(cols).fill(1);
   }
 
   function draw() {
-    // Slightly transparent black overlay gives the fading trail effect
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-    ctx.fillStyle = isDark
-      ? 'rgba(5, 10, 14, 0.06)'
-      : 'rgba(238, 244, 248, 0.08)';
+    ctx.fillStyle = isDark ? 'rgba(5, 10, 14, 0.06)' : 'rgba(238, 244, 248, 0.08)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     ctx.font = `${fontSize}px "Share Tech Mono", monospace`;
 
     for (let i = 0; i < drops.length; i++) {
       const char = CHARS[Math.floor(Math.random() * CHARS.length)];
-
-      // Colour: bright at the head, dimmer for the rest
       const brightness = Math.random();
-      if (brightness > 0.98) {
-        ctx.fillStyle = isDark ? '#ffffff' : '#000000';
-      } else if (brightness > 0.85) {
-        ctx.fillStyle = isDark ? '#00ff9d' : '#007b50';
-      } else {
-        ctx.fillStyle = isDark
-          ? `rgba(0, 230, 255, ${brightness * 0.5 + 0.05})`
-          : `rgba(0, 95, 163, ${brightness * 0.3 + 0.05})`;
-      }
+      if (brightness > 0.98) ctx.fillStyle = isDark ? '#ffffff' : '#000000';
+      else if (brightness > 0.85) ctx.fillStyle = isDark ? '#00ff9d' : '#007b50';
+      else ctx.fillStyle = isDark ? `rgba(0, 230, 255, ${brightness * 0.5 + 0.05})` : `rgba(0, 95, 163, ${brightness * 0.3 + 0.05})`;
 
       ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-
-      // Reset drop to top randomly after it has fallen past the canvas
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
       drops[i]++;
     }
   }
-
   resize();
   window.addEventListener('resize', resize);
-
-let animId;
-  function loop() {
-    setTimeout(() => {
-      draw();
-      animId = requestAnimationFrame(loop);
-    }, 50); // <-- Change this number to adjust the speed
-  }
+  function loop() { setTimeout(() => { draw(); requestAnimationFrame(loop); }, 50); }
   loop();
 }
 
-/*03. THEME TOGGLE */
 function initThemeToggle() {
-  const btn  = $('#themeToggle');
-  const icon = $('#themeIcon');
-  const html = document.documentElement;
-
-  // Load saved preference
-  const saved = localStorage.getItem('portfolio-theme') || 'dark';
-  applyTheme(saved);
-
-  btn.addEventListener('click', () => {
-    const current = html.getAttribute('data-theme');
-    applyTheme(current === 'dark' ? 'light' : 'dark');
-  });
-
-  function applyTheme(theme) {
+  const btn = $('#themeToggle'), icon = $('#themeIcon'), html = document.documentElement;
+  const applyTheme = (theme) => {
     html.setAttribute('data-theme', theme);
     localStorage.setItem('portfolio-theme', theme);
-
-    if (theme === 'light') {
-      icon.className = 'bx bx-sun';
-      btn.setAttribute('title', 'Switch to dark mode');
-      btn.setAttribute('aria-label', 'Switch to dark mode');
-    } else {
-      icon.className = 'bx bx-moon';
-      btn.setAttribute('title', 'Switch to light mode');
-      btn.setAttribute('aria-label', 'Switch to light mode');
-    }
-  }
+    icon.className = theme === 'light' ? 'bx bx-sun' : 'bx bx-moon';
+    btn.setAttribute('title', `Switch to ${theme === 'light' ? 'dark' : 'light'} mode`);
+  };
+  applyTheme(localStorage.getItem('portfolio-theme') || 'dark');
+  btn.addEventListener('click', () => applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 }
 
-/*04. NAVBAR — scroll shrink & active link*/
 function initNavbar() {
-  const navbar  = $('#navbar');
-  const navLinks = $$('.nav-link');
-  const sections = $$('section[id]');
-
-  // Add .scrolled class when user scrolls
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 60);
-    updateActiveLink();
-  }, { passive: true });
-
-  function updateActiveLink() {
+  const navbar = $('#navbar'), navLinks = $$('.nav-link'), sections = $$('section[id]');
+  const updateActiveLink = () => {
     let currentId = 'home';
-    const offset  = window.innerHeight * 0.4;
-
-    sections.forEach(sec => {
-      if (window.scrollY + offset >= sec.offsetTop) {
-        currentId = sec.id;
-      }
-    });
-
-    navLinks.forEach(link => {
-      link.classList.toggle('active', link.dataset.section === currentId);
-    });
-  }
-
+    sections.forEach(sec => { if (window.scrollY + (window.innerHeight * 0.4) >= sec.offsetTop) currentId = sec.id; });
+    navLinks.forEach(link => link.classList.toggle('active', link.dataset.section === currentId));
+  };
+  window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 60); updateActiveLink(); }, { passive: true });
   updateActiveLink();
 }
 
-/* 05. HAMBURGER MOBILE MENU*/
 function initMobileMenu() {
-  const btn   = $('#hamburger');
-  const menu  = $('#mobileMenu');
-  const links = $$('.mobile-link');
-
-  function openMenu()  {
-    btn.classList.add('open');
-    menu.hidden = false;
-    btn.setAttribute('aria-expanded', 'true');
-  }
-  function closeMenu() {
-    btn.classList.remove('open');
-    menu.hidden = true;
-    btn.setAttribute('aria-expanded', 'false');
-  }
-
-  btn.addEventListener('click', () => {
-    menu.hidden ? openMenu() : closeMenu();
-  });
-
-  // Close when a link is clicked
-  links.forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  // Close on outside click
-  document.addEventListener('click', e => {
-    if (!btn.contains(e.target) && !menu.contains(e.target)) closeMenu();
-  });
-
-  // Close on Escape key
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && !menu.hidden) {
-      closeMenu();
-      btn.focus();
-    }
-  });
+  const btn = $('#hamburger'), menu = $('#mobileMenu');
+  const toggleMenu = (forceClose = false) => {
+    const isOpen = forceClose ? false : menu.hidden;
+    menu.hidden = !isOpen;
+    btn.classList.toggle('open', isOpen);
+    btn.setAttribute('aria-expanded', isOpen);
+  };
+  btn.addEventListener('click', () => toggleMenu());
+  $$('.mobile-link').forEach(link => link.addEventListener('click', () => toggleMenu(true)));
+  document.addEventListener('click', e => { if (!btn.contains(e.target) && !menu.contains(e.target)) toggleMenu(true); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !menu.hidden) toggleMenu(true); });
 }
 
-/* 06. TYPING TEXT ANIMATION*/
 function initTypingEffect() {
   const el = $('#typingText');
   if (!el) return;
-
-  const strings = [
-    'Cybersecurity Enthusiast',
-    'Ethical Hacking Learner',
-    'CTF Player',
-  ];
-
-  let strIndex  = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-
-  const TYPE_SPEED   = 80;   // ms per character when typing
-  const DELETE_SPEED = 40;   // ms per character when deleting
-  const PAUSE_FULL   = 2200; // ms pause at full string
-  const PAUSE_EMPTY  = 500;  // ms pause at empty string
+  const strings = ['Cybersecurity Enthusiast', 'Ethical Hacking Learner', 'CTF Player'];
+  let strIndex = 0, charIndex = 0, isDeleting = false;
 
   function type() {
     const current = strings[strIndex];
+    el.textContent = current.slice(0, isDeleting ? charIndex - 1 : charIndex + 1);
+    charIndex += isDeleting ? -1 : 1;
 
-    if (!isDeleting) {
-      el.textContent = current.slice(0, charIndex + 1);
-      charIndex++;
-
-      if (charIndex === current.length) {
-        isDeleting = true;
-        setTimeout(type, PAUSE_FULL);
-        return;
-      }
-      setTimeout(type, TYPE_SPEED);
-    } else {
-      el.textContent = current.slice(0, charIndex - 1);
-      charIndex--;
-
-      if (charIndex === 0) {
-        isDeleting = false;
-        strIndex = (strIndex + 1) % strings.length;
-        setTimeout(type, PAUSE_EMPTY);
-        return;
-      }
-      setTimeout(type, DELETE_SPEED);
-    }
+    if (!isDeleting && charIndex === current.length) { isDeleting = true; setTimeout(type, 2200); }
+    else if (isDeleting && charIndex === 0) { isDeleting = false; strIndex = (strIndex + 1) % strings.length; setTimeout(type, 500); }
+    else setTimeout(type, isDeleting ? 40 : 80);
   }
-
-  setTimeout(type, 800); // slight initial delay
+  setTimeout(type, 800);
 }
 
-/*07. REVEAL ON SCROLL*/
 function initRevealOnScroll() {
-  const options = {
-    threshold: 0.12,
-    rootMargin: '0px 0px -50px 0px',
-  };
-
-  const observer = new IntersectionObserver((entries) => {
+  const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       entry.target.classList.add('visible');
-
-      // Once revealed, also reveal any children inside this section
-      if (entry.target.classList.contains('reveal')) {
-        $$('.reveal-child', entry.target).forEach((child, i) => {
-          setTimeout(() => child.classList.add('visible'), i * 70);
-        });
-      }
-
+      if (entry.target.classList.contains('reveal')) $$('.reveal-child', entry.target).forEach((child, i) => setTimeout(() => child.classList.add('visible'), i * 70));
       observer.unobserve(entry.target);
     });
-  }, options);
-
-  // Observe all .reveal elements
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
   $$('.reveal').forEach(el => observer.observe(el));
-
-  // Also observe standalone .reveal-child elements not inside a .reveal parent
-  $$('.reveal-child').forEach(el => {
-    if (!el.closest('.reveal')) observer.observe(el);
-  });
+  $$('.reveal-child').forEach(el => { if (!el.closest('.reveal')) observer.observe(el); });
 }
 
-/* 08. SMOOTH SCROLL FOR NAV LINKS*/
 function initSmoothScroll() {
-  // All anchor links pointing to # sections
   $$('a[href^="#"]').forEach(link => {
     link.addEventListener('click', e => {
-      if (link.id === 'decryptBtn') return; // <-- ADD THIS LINE HERE
+      if (link.id === 'decryptBtn') return;
       const target = $(link.getAttribute('href'));
       if (!target) return;
-
       e.preventDefault();
-      const navH   = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'), 10) || 70;
-      const offset = target.getBoundingClientRect().top + window.scrollY - navH + 2;
-
+      const offset = target.getBoundingClientRect().top + window.scrollY - (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 70) + 2;
       window.scrollTo({ top: offset, behavior: 'smooth' });
     });
   });
 }
 
-/*09. SCROLL-TO-TOP BUTTON*/
 function initScrollTop() {
   const btn = $('#scrollTop');
   if (!btn) return;
-
-  window.addEventListener('scroll', () => {
-    const show = window.scrollY > 400;
-    btn.hidden = !show;
-    btn.classList.toggle('visible', show);
-  }, { passive: true });
-
-  btn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  window.addEventListener('scroll', () => { btn.hidden = window.scrollY <= 400; btn.classList.toggle('visible', window.scrollY > 400); }, { passive: true });
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
-/* 10. CONTACT FORM VALIDATION */
 function initContactForm() {
-  const form    = $('#contactForm');
+  const form = $('#contactForm'), successBox = $('#formSuccess'), submitBtn = $('#submitBtn');
   if (!form) return;
-
   const fields = {
-    name:    { input: $('#contactName'),    error: $('#nameError'),    validate: v => v.trim().length >= 2 ? '' : 'Please enter your name.' },
-    email:   { input: $('#contactEmail'),   error: $('#emailError'),   validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'Please enter a valid email address.' },
-    subject: { input: $('#contactSubject'), error: $('#subjectError'), validate: v => v.trim().length >= 3 ? '' : 'Please enter a subject.' },
-    message: { input: $('#contactMessage'), error: $('#messageError'), validate: v => v.trim().length >= 10 ? '' : 'Please write a message.' },
+    name: { input: $('#contactName'), error: $('#nameError'), validate: v => v.trim().length >= 2 ? '' : 'Required.' },
+    email: { input: $('#contactEmail'), error: $('#emailError'), validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'Invalid email.' },
+    message: { input: $('#contactMessage'), error: $('#messageError'), validate: v => v.trim().length >= 10 ? '' : 'Message too short.' }
   };
+  const showErr = (input, errEl, msg) => { errEl.textContent = msg; input.classList.toggle('error', !!msg); };
 
-  const successBox = $('#formSuccess');
-  const submitBtn  = $('#submitBtn');
-
-  // Live validation on blur
   Object.values(fields).forEach(({ input, error, validate }) => {
-    input.addEventListener('blur', () => {
-      const msg = validate(input.value);
-      showFieldError(input, error, msg);
-    });
-    input.addEventListener('input', () => {
-      if (input.classList.contains('error')) {
-        const msg = validate(input.value);
-        showFieldError(input, error, msg);
-      }
-    });
+    input.addEventListener('blur', () => showErr(input, error, validate(input.value)));
+    input.addEventListener('input', () => { if (input.classList.contains('error')) showErr(input, error, validate(input.value)); });
   });
 
-  // Submit handler
   form.addEventListener('submit', e => {
     e.preventDefault();
-
-    // Validate all fields
     let valid = true;
     Object.values(fields).forEach(({ input, error, validate }) => {
-      const msg = validate(input.value);
-      showFieldError(input, error, msg);
-      if (msg) valid = false;
+      const msg = validate(input.value); showErr(input, error, msg); if (msg) valid = false;
     });
-
     if (!valid) return;
 
-    // Start Loading Animation
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i><span>Sending...</span>';
-
-    // Package the form data
-    const formData = new FormData(form);
-
-    // Send the data to Formspree securely
-    fetch(form.action, {
-      method: form.method,
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    })
-    .then(response => {
-      if (response.ok) {
-        // Success! Show the green box and reset form
-        successBox.hidden = false;
-        form.reset();
-        
-        // Clear success states
-        Object.values(fields).forEach(({ input, error }) => {
-          input.classList.remove('error', 'success');
-          error.textContent = '';
-        });
-
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="bx bx-send"></i><span>Send Message</span>';
-        setTimeout(() => successBox.hidden = true, 6000);
-      } else {
-        alert("Oops! There was a problem submitting your form.");
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="bx bx-send"></i><span>Send Message</span>';
-      }
-    })
-    .catch(error => {
-      alert("Network error. Please try again later.");
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="bx bx-send"></i><span>Send Message</span>';
-    });
-  }); // <-- This ensures the event listener is closed properly!
-
-  /** Helper: display or clear an error on a field */
-  function showFieldError(input, errorEl, message) {
-    errorEl.textContent = message;
-    input.classList.toggle('error', !!message);
-  }
+    submitBtn.disabled = true; submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i><span>Sending...</span>';
+    fetch(form.action, { method: form.method, body: new FormData(form), headers: { 'Accept': 'application/json' } })
+      .then(res => {
+        if (res.ok) {
+          successBox.hidden = false; form.reset();
+          Object.values(fields).forEach(({ input, error }) => { input.classList.remove('error'); error.textContent = ''; });
+          setTimeout(() => successBox.hidden = true, 6000);
+        } else alert("Submission failed.");
+      })
+      .catch(() => alert("Network error."))
+      .finally(() => { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="bx bx-send"></i><span>Send Message</span>'; });
+  });
 }
 
-/* 11. FOOTER YEAR */
-function initFooterYear() {
-  const el = $('#footerYear');
-  if (el) el.textContent = new Date().getFullYear();
-}
-/* 12. DECRYPT BUTTON ANIMATION */
 function initDecryptButton() {
-  const btn = $('#decryptBtn');
-  const targetSection = $('#writeups');
+  const btn = $('#decryptBtn'), targetSection = $('#writeups');
   if (!btn || !targetSection) return;
-
-  const originalHTML = btn.innerHTML;
-  // Characters to use for the scramble effect
-  const CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/\\[]{}|=!@#$%^&*';
-  const targetText = "ACCESS GRANTED";
+  const originalHTML = btn.innerHTML, CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/\\[]{}|=!@#$%^&*', targetText = "ACCESS GRANTED";
 
   btn.addEventListener('click', (e) => {
     e.preventDefault();
-    
-    // 1. Switch to the "decrypting" CSS state
-    btn.classList.add('is-decrypting');
-    btn.classList.remove('btn-primary');
-    
+    btn.classList.add('is-decrypting'); btn.classList.remove('btn-primary');
     let iterations = 0;
-    const maxIterations = 20;
 
-    // 2. The Scramble Loop
     const interval = setInterval(() => {
-      let scrambled = targetText.split('').map((char, index) => {
-        if (index < iterations / 2) return targetText[index];
-        return CHARS[Math.floor(Math.random() * CHARS.length)];
-      }).join('');
-
-      // Update button text with an open padlock icon
-      btn.innerHTML = `<i class="bx bx-lock-open-alt"></i> ${scrambled}`;
+      btn.innerHTML = `<i class="bx bx-lock-open-alt"></i> ` + targetText.split('').map((char, i) => i < iterations / 2 ? targetText[i] : CHARS[Math.floor(Math.random() * CHARS.length)]).join('');
       iterations++;
-
-      // 3. Finished Decrypting
-      if (iterations >= maxIterations * 2) {
+      if (iterations >= 40) {
         clearInterval(interval);
-        
-        // Switch to the Green "Success" CSS state
-        btn.classList.remove('is-decrypting');
-        btn.classList.add('is-decrypted');
+        btn.classList.replace('is-decrypting', 'is-decrypted');
         btn.innerHTML = `<i class="bx bx-check"></i> ${targetText}`;
-
-        // Wait half a second so the user can read "Access Granted", then scroll
         setTimeout(() => {
-          const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'), 10) || 70;
-          const offset = targetSection.getBoundingClientRect().top + window.scrollY - navH + 2;
-          window.scrollTo({ top: offset, behavior: 'smooth' });
-
-          // Reset the button back to normal after the scroll finishes
-          setTimeout(() => {
-            btn.classList.remove('is-decrypted');
-            btn.classList.add('btn-primary');
-            btn.innerHTML = originalHTML;
-          }, 1200);
+          window.scrollTo({ top: targetSection.getBoundingClientRect().top + window.scrollY - 70 + 2, behavior: 'smooth' });
+          setTimeout(() => { btn.classList.replace('is-decrypted', 'btn-primary'); btn.innerHTML = originalHTML; }, 1200);
         }, 600);
       }
     }, 50);
   });
 }
-/*13. INIT */
+
 document.addEventListener('DOMContentLoaded', () => {
-  initMatrixRain();
-  initThemeToggle();
-  initNavbar();
-  initMobileMenu();
-  initTypingEffect();
-  initRevealOnScroll();
-  initSmoothScroll();
-  initScrollTop();
-  initContactForm();
-  initFooterYear();
-  initDecryptButton();
+  [initMatrixRain, initThemeToggle, initNavbar, initMobileMenu, initTypingEffect, initRevealOnScroll, initSmoothScroll, initScrollTop, initContactForm, initDecryptButton].forEach(fn => fn());
 });
